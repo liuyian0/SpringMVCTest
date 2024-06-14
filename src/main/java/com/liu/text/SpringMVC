@@ -29,5 +29,44 @@ ServiceLoader.load(Class cls) //示例：ServiceLoader.load(接口.class)
 ServletContainerInitializer是Servlet3.0新增的一个接口，主要用于在web容器(Tomcat)启动阶段通过编程风格注册Filter、Servlet、Listener，
 以取代通过web.xml配置注册。这样就利于开发内聚的web应用框架。
 
+四、SpringMVC执行过程
+java工程和web工程的区别：
+1.打包方式：Java工程是jar包，web工程是war包
+2.运行方式：java工程是直接通过main方法运行，web工程的main方法是在web容器中（web工程必须要部署在web容器上才能运行）
 
+简易版SpringMVC加载机制：
+
+- Tomcat  =>  ServletContainerInitConfig  =>  SpringmvcConfig  =>  UserController
+  - Tomcat： web容器
+  - ServletContainerInitConfig： web容器配置类（SPI机制）
+  - SpringmvcConfig： SpringMVC配置类
+  - UserController：表现层的控制器类（等同于Servlet）
+- 执行顺序：
+  1. Tomcat根据SPI机制加载ServletContainerInitConfig类
+  2. ServletContainerInitConfig类中方法执行
+  3. SpringmvcConfig类加载（由ServletContainerInitConfig类中方法运行时加载）
+  4. UserController类被SpringmvcConfig类扫描到并加载
+
+详解版SpringMVC执行过程分析
+
+SpringMVC加载机制：Tomcat  =>  ServletContainerInitConfig  =>  SpringmvcConfig  =>  UserController
+
+- Tomcat
+  - tomcat的main方法执行时，根据SPI机制加载ServletContainerInitConfig类
+    1. spring-web.jar下有META-INF/services/javax.servlet.ServletContainerInitializer文件
+    2. 此文件中配置实现类 org.springframework.web.SpringServletContainerInitializer
+    3. SpringServletContainerInitializer类会被Tomcat所加载(SPI机制)，此类上的有个注解配置，指定要加载的类型
+       - @HandlesTypes({WebApplicationInitializer.class})
+    4. WebApplicationInitializer接口的所有实现类都会被加载
+       - 入门案例中的ServletContainerInitConfig类就是WebApplicationInitializer接口的实现类
+- ServletContainerInitConfig（web容器配置类）
+  - createServletApplicationContext方法运行，加载springmvc配置类
+  - getServletMappings方法运行，给DispatcherServlet类设置访问路径为`/` (表示拦截所有)
+- SpringmvcConfig（SpringMVC配置类）
+  - @ComponentScan("com.itheima.controller")
+    - springmvc底层开始扫描：com.itheima.controller包
+- UserController（控制器）[等同于Servlet]
+  - @Controller ： 表示此bean会添加到springmvc的ioc容器
+  - @RequestMapping("/save") ： 设置访问路径和目标方法的映射
+  - @ResponseBody ： 方法的的返回值将会通过响应体返回给前端
 

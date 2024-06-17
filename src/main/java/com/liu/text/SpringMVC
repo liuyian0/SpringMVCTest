@@ -79,3 +79,55 @@ SpringMVC加载机制：Tomcat  =>  ServletContainerInitConfig  =>  SpringmvcCon
      - DispatcherServlet设置的请求路径为：`/`（所有请求）
   3. DispatherServlet找到`/save`对应的控制器方法：UserController类中的save()方法
   4. 执行UserController类中的save()方法，并把save()方法执行后的结果，通过响应体返回给前端
+
+六、RequestMapping注解（建立请求路径和目标方法的映射）
+RequestMapping所在位置：
+1.类上
+窄化路径。访问类中的方法时，必须加上类上定义的请求路径
+例如：
+@Controller
+@RequestMapping("/user")
+public class UserController {
+    @RequestMapping("/save")
+    @ResponseBody
+    public String save(){
+        return "save success";
+    }
+}
+2.方法
+建立请求资源路径与方法的直接对应关系
+例如：
+@Controller
+public class UserController {
+    @RequestMapping("/save")
+    @ResponseBody
+    public String save(){
+        return "save success";
+    }
+}
+
+RequestMapping注解常用属性
+- value 或 path：指定访问路径
+- method：限定请求方式（restful风格）
+  - 不写，默认什么请求方式都可以
+  - 指定了请求方式后，如果不匹配就会响应405状态码
+例如：
+@Controller
+@RequestMapping("/user")
+public class UserController {
+    @RequestMapping(path = "/save",method = RequestMethod.GET)
+    @ResponseBody
+    public String save(){
+        return "save success";
+    }
+
+    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    @ResponseBody
+    public String saveUser(){
+        return "save success";
+    }
+}
+
+
+
+

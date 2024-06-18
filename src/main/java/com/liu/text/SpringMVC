@@ -179,6 +179,41 @@ url格式的请求参数类型：
 代码示例：
 控制器类UsersController
 
+<使用SpringMVC接收前端发送的json格式请求参数>
+
+json格式请求参数常见类型：
+1.json对象
+例如：User
+{"name":"zhangsan","age":"18"}
+2.json数组
+例如：String[]
+["a","b","c"]
+3.json数组(POJO)
+List<User>
+[{"name":"zhangsan","age":"18"},{"name":"zhaosi","age":"19"}]
+
+java中的json转换工具
+FastJson
+JackSon(SpringMVC底层使用)
+
+SpringMVC接收json请求参数的步骤
+1.导入坐标jackson-databind
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+2.开启json数据自动转换(SpringmvcConfig)
+@EnableWebMvc
+3.接收json数据：使用@RequestBody注解把json数据映射到方法形参上
+public String pojoParamForJson(@RequestBody User user)
+
+
+
+
+
+
+
 
 
 

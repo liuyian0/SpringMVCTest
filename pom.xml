@@ -29,5 +29,11 @@
             <artifactId>spring-webmvc</artifactId>
             <version>5.2.10.RELEASE</version>
         </dependency>
+        <!--java中的json转换工具-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.0</version>
+        </dependency>
     </dependencies>
 </project>

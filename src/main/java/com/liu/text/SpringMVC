@@ -133,8 +133,53 @@ SpringMVC开发步骤：
 1. 导入坐标（SpringMVC依赖、Servlet依赖）
 2. 创建SpringMVC控制器类（等同于Servlet）RoleController
 3. 创建SpringMVC配置类（初始化SpringMVC环境）SpringmvcConfig
-4. 创建Web容器配置类
+4. 创建Web容器配置类ServletContainerInitConfig
    - 初始化Servlet容器，加载SpringMVC环境，并设置SpringMVC请求拦截的路径
+
+八、SpringMVC的请求处理
+SpringMVC主要应用在三层架构中的表现层（web层）。作用就是：
+1. 接收请求
+2. 业务处理（交给业务层）
+3. 响应数据
+请求分为两大类：
+1.同步请求（前后端不分离）
+①请求参数：以url为主
+例如：
+get：http://localhost:8080/save?username=itheima&password=123
+POST ：http//localhost:8080/save
+   请求体：username=liu&password=123
+②特点：同步请求的响应内容会刷新整个网页
+③响应：跳转页面
+2.异步请求
+①请求参数：url格式、json格式
+②特点：请求的响应内容只会让页面局部刷新
+③响应：字符串数据、json格式数据
+
+SpringMvc对请求和响应进行了封装
+请求携带以下类型的数据时SpringMVC会自动接收，并在解析之后传递给方法进行使用
+1. 基本数据类型、String
+2. pojo类型
+3. 数组类型
+4. 集合类型
+直接在方法上定义形参▲注意：
+例如：方法上的形参名称必须要和请求参数名称保持一致
+URL格式的GET请求： http://localhost:8080/login?username=itheima&password=123
+@RequestMapping(value = "/login")
+@ResponseBody
+public String login(String username,String password){
+    return "login success";
+}
+
+<使用SpringMVC接收前端发送的url格式请求参数>
+url格式的请求参数类型：
+1.基本数据类型
+2.pojo类型
+3.数组类型
+4.集合类型
+代码示例：
+控制器类UsersController
+
+
 
 
 

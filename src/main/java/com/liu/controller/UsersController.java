@@ -1,11 +1,13 @@
 package com.liu.controller;
 
 import com.liu.pojo.User;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -13,7 +15,8 @@ public class UsersController {
     //普通参数：请求参数与形参名称对应即可完成参数传递
     @RequestMapping("commonParam")
     @ResponseBody
-    public String commonParam(String name,int age){
+    public String commonParam(@RequestParam("userName") String name,
+                              @RequestParam("userAge") int age){
         System.out.println("普通参数传递：name="+name);
         System.out.println("普通参数传递：age="+age);
         return "commonParam";
@@ -50,6 +53,18 @@ public class UsersController {
         System.out.println("集合参数传递：likes="+likes);
         return "listParam";
         //例如：postman输入http://localhost:8080/listParam?likes=sing&likes=jump&likes=rap&likes=basketball
+    }
+    //日期参数
+    @RequestMapping("/dateParam")
+    @ResponseBody
+    public String dateParam(Date date1,//默认格式yyyy/MM/dd
+                            @DateTimeFormat(pattern = "yyyy-MM-dd")Date date2,
+                            @DateTimeFormat(pattern = "dd/MM/yyyy")Date date3){
+        System.out.println("日期参数传递：默认"+date1);//日期参数传递：默认Thu Jun 19 00:00:00 CST 2014
+        System.out.println("日期参数传递yyyy-MM-dd"+date2);//日期参数传递yyyy-MM-ddThu Jun 19 00:00:00 CST 2014
+        System.out.println("日期参数传递dd/Mm/yyyy"+date3);//日期参数传递dd/Mm/yyyyThu Jun 19 00:00:00 CST 2014
+        //返回的都是Thu Jun 19 00:00:00 CST 2014
+        return "dateParam";
     }
     /**
     普通参数传递：name=zhangsan

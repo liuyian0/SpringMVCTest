@@ -208,7 +208,22 @@ SpringMVC接收json请求参数的步骤
 3.接收json数据：使用@RequestBody注解把json数据映射到方法形参上
 public String pojoParamForJson(@RequestBody User user)
 
-
+<SpringMVC请求参数的特殊情况>
+（中文乱码、参数不一致、日期格式等）
+1.请求参数名称不一致
+例如：GET请求：Http://localhost:8080/commonParam?userName=zhangsan&userAge=20
+正确的是Http://localhost:8080/commonParam?name=zhangsan&age=20
+修改UsersController中的commonParam部分代码
+修改之后原来的请求就不能正常访问了
+2.中文乱码问题
+servlet时
+post请求：response.setCharacterEncoding("UTF-8")
+而SpringMVC提供了编码过滤器，可以直接使用
+在ServletContainerInitConfig配置类中进行配置即可
+3.日期的处理
+日期格式不尽相同（2014-06-19、2014/06/19、19/06/2014等）
+接受形参时，根据不同的日期格式设置不同的接收方式
+注意：使用@DateTimeFormat时，要配置@EnableWebMvc
 
 
 

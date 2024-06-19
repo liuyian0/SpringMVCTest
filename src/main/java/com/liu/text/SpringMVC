@@ -225,7 +225,10 @@ post请求：response.setCharacterEncoding("UTF-8")
 接受形参时，根据不同的日期格式设置不同的接收方式
 注意：使用@DateTimeFormat时，要配置@EnableWebMvc
 
-
+九、SpringMVC的响应处理
+1.响应页面
+2.响应数据（字符串数据、json数据）
+使用@ResponseBody注解，设置当前方法返回值作为响应体
 
 
 

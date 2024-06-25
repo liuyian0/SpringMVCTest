@@ -230,7 +230,18 @@ post请求：response.setCharacterEncoding("UTF-8")
 2.响应数据（字符串数据、json数据）
 使用@ResponseBody注解，设置当前方法返回值作为响应体
 
+十、SpringMVC的RESTful风格
+传统风格访问路径：http://localhost:8080/user/get?id=1
+RESTful风格路径：http://localhost/user/1
+优点：
+1.隐藏了资源的访问行为，通过地址栏无法得知进行的操作（提高了安全性）
+2.简化书写
 
+在SpringMVC中提供了一些组合注解，来简化代码的书写：
+- @RestController
+  - 效果：  @Controller + @ResponseBody
+- @GetMapping("/rest")
+  - 效果： @RequestMapping(value = "/rest" , method = RequestMethod.GET)
 
 
 

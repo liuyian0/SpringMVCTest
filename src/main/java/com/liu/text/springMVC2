@@ -1,0 +1,4 @@
+一、基于SSM的三层架构
+表现层web：SpringMVC
+业务层service：Spring
+数据访问层dao：Mybatis

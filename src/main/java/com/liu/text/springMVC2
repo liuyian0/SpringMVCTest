@@ -2,3 +2,33 @@
 表现层web：SpringMVC
 业务层service：Spring
 数据访问层dao：Mybatis
+
+SSM框架整合流程
+1.创建项目工程
+2.创建分包（config、dao、service（impl）、pojo）
+3.搭建Spring框架环境
+①导入Spring相关依赖
+②编写SpringConfig配置类
+
+SSM整合-Spring整合Mybatis（上次提交）
+①导入坐标（Mysql、mybatis、druid、Spring-jdbc、mybatis-spring）
+②编写配置类（JdbcConfig、MybatisConfig、修改SpringConfig）
+③编写dao层
+④编写service层
+
+SSM整合-Spring整合SpringMVC
+①导入坐标（servlet、Jackson、SpringMVC）
+②编写配置类（ServletConfig、SpringMVCConfig）
+③编写web层
+
+- 配置启动顺序：
+  1. Tomcat启动，利用SPI机制加载ServletInitConfig
+  2. 在ServletInitConfig中，先加载SpringConfig，然后加载SpringmvcConfig，最后设置SpringMVC中的DispatcherServlet的匹配路径为：`/`
+  3. SpringConfig
+     - 1、加载com.itheima.service下的bean（IoC父容器）
+     - 2、加载jdbc.properties文件
+     - 3、加载mybatis配置类：JdbcConfig、MybatisConfig
+       - 将com.itheima.dao下的bean放到父容器
+  4. SpringmvcConfig
+     - 加载com.itheima.controller下的bean（子容器）
+父子容器：子容器可以访问父容器中的bean (反之不行)
